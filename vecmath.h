@@ -1656,6 +1656,19 @@ VECMATH_INLINE vec3_t vec3_tan( vec3_t v ) { return vec3( vecmath_tan( v.x ), ve
 VECMATH_INLINE vec3_t vec3_tanh( vec3_t v ) { return vec3( vecmath_tanh( v.x ), vecmath_tanh( v.y ), vecmath_tanh( v.z ) ); }
 VECMATH_INLINE vec3_t vec3_trunc( vec3_t v ) { return vec3( vecmath_trunc( v.x ), vecmath_trunc( v.y ), vecmath_trunc( v.z ) ); }
 
+VECMATH_INLINE vec3_t vec3_rotate(vec3_t v, float angle, vec3_t axis) {
+	vec3_t v1, v2, k;
+	float c, s;
+	c = m_cos(angle);
+	s = m_sin(angle);
+	k = vec3_normalize(axis);
+	v1 = vec3_mulf(v, c);
+	v2 = vec3_cross(k, v);
+	v2 = vec3_mulf(v2, s);
+	v1 = vec3_add(v1, v2);
+	v2 = vec3_mulf(k, vec3_dot(k, v) * (1.0 - c));
+	return vec3_add(v1, v2);
+}
 
 // vec4
 #ifdef __cplusplus
